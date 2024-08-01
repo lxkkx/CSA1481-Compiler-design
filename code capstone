@@ -1,0 +1,52 @@
+CODE 
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <string.h> 
+// Function to detect and highlight errors in C code 
+void detect_errors(const char *code) { 
+const char *errors[] = { 
+"if( ; )",    
+// Empty if statement 
+"for( ; ; )", // Empty for loop 
+"while( ; )", // Empty while loop 
+// Add more error patterns here 
+}; 
+const char *ptr = code; 
+int line_number = 1; 
+while (*ptr != '\0') { 
+// Check for end of line 
+if (*ptr == '\n') { 
+line_number++; 
+} 
+// Check for errors 
+for (int i = 0; i < sizeof(errors) / sizeof(errors[0]); i++) { 
+const char *error_pos = strstr(ptr, errors[i]); 
+if (error_pos != NULL) { 
+printf("Error detected at line %d: %s\n", line_number, errors[i]); 
+// Highlight error by printing in red or using ANSI escape codes 
+} 
+} 
+ptr++; 
+} 
+} 
+int main() { 
+const char *code =  
+"#include <stdio.h>\n\n" 
+"int main() {\n" 
+"    if( ; ) {\n" 
+"   
+     printf(\"Empty if statement\\n\");\n" 
+"    }\n" 
+"    for( ; ; ) {\n" 
+"   
+     printf(\"Empty for loop\\n\");\n" 
+"    }\n" 
+"    while( ; ) {\n" 
+"   
+     printf(\"Empty while loop\\n\");\n" 
+"    }\n" 
+"    return 0;\n" 
+"}\n"; 
+detect_errors(code); 
+return 0; 
+}
